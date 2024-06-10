@@ -13,6 +13,7 @@ import { profesoresRoutes } from "./src/routes/profesoresRoutes";
 const app = express();
 dotenv.config()
 
+app.use(bodyParser.json());
 app.use('/estudiantes',estudiantesRoutes)
 app.use('/profesores',profesoresRoutes)
 app.use('/asignaturas',asignaturasRoutes)
