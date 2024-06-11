@@ -6,7 +6,7 @@ const create = (estudiante, callback) => {
     const queryString = 'INSERT INTO estudiantes (cod_e, nom_e, dir_e, tel_e, fech_nac) VALUES (?, ?, ?, ?, ?)';
     db_1.db.query(queryString, [estudiante.cod_e, estudiante.nom_e, estudiante.dir_e, estudiante.tel_e, estudiante.fech_nac], (err, result) => {
         if (err) {
-            callback(err);
+            callback(err); // Devolvemos el error si ocurrió uno durante la consulta
         }
         else {
             const insertId = result.insertId;

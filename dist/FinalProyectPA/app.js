@@ -38,14 +38,6 @@ const profesoresRoutes_1 = require("./src/routes/profesoresRoutes");
 //import { inscribeRoutes } from "./src/routes/inscribeRoutes";
 const app = (0, express_1.default)();
 dotenv.config();
-const allowedOrigins = ["*"];
-const options = {
-    origin: allowedOrigins,
-    allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'X-Access-Token',],
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE"
-};
-app.use((0, cors_1.default)(options));
-app.use(bodyParser.json());
 app.use('/estudiantes', estudiantesRoutes_1.estudiantesRoutes);
 app.use('/profesores', profesoresRoutes_1.profesoresRoutes);
 app.use('/asignaturas', asignaturasRoutes_1.asignaturasRoutes);
@@ -56,6 +48,7 @@ app.get('/', (req, res) => {
     res.status(200).send('Welcome!');
 });
 app.use(bodyParser.json());
+app.use(cors_1.default);
 db_1.db.connect((err) => {
     if (err) {
         console.log('Database connection error');

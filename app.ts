@@ -9,14 +9,21 @@ import { profesoresRoutes } from "./src/routes/profesoresRoutes";
 //import { imparteRoutes } from "./src/routes/imparteRoutes";
 //import { inscribeRoutes } from "./src/routes/inscribeRoutes";
 
-
 const app = express();
 dotenv.config()
+const allowedOrigins = ["*"]
+const options: cors.CorsOptions = {
+	origin: allowedOrigins,
+	allowedHeaders: [    'Origin',    'X-Requested-With',    'Content-Type',    'Accept',    'X-Access-Token',  ],
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE"
+}
 
+app.use(cors<Request>(options));
 app.use(bodyParser.json());
 app.use('/estudiantes',estudiantesRoutes)
 app.use('/profesores',profesoresRoutes)
 app.use('/asignaturas',asignaturasRoutes)
+
 //app.use('/imparte', imparteRoutes)
 //app.use('/inscribe', inscribeRoutes)
 
@@ -27,7 +34,7 @@ app.get('/', (req, res) => {
 });
 
 app.use(bodyParser.json());
-app.use(cors);
+
 
 db.connect((err) => {
 	if (err) {

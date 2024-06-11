@@ -11,7 +11,7 @@ export const create = (estudiante: Estudiantes, callback: Function) => {
         [estudiante.cod_e, estudiante.nom_e, estudiante.dir_e, estudiante.tel_e, estudiante.fech_nac],
         (err, result) => {
             if (err) { 
-                callback(err); // Devolvemos el error si ocurrió uno durante la consulta
+                callback(err); 
             } else {
                 const insertId = (<OkPacket>result).insertId;
                 callback(null, insertId); // Llamamos a la función de devolución de llamada con el ID del estudiante insertado
@@ -19,6 +19,7 @@ export const create = (estudiante: Estudiantes, callback: Function) => {
         }
     );
 };
+
 
 
 export const update = (cod_e: number, estudiante: Estudiantes, callback: Function) => {

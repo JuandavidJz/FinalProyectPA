@@ -16,4 +16,4 @@ export const create = (asignaturas: Asignaturas, callback: Function) => {
 			callback(null, insertId);
 		}
 	);
-};
+}; 
