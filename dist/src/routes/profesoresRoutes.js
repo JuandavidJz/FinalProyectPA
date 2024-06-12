@@ -40,6 +40,14 @@ const express_1 = __importDefault(require("express"));
 const profesoresControllers = __importStar(require("../controllers/profesorescontroller"));
 const profesoresRoutes = express_1.default.Router();
 exports.profesoresRoutes = profesoresRoutes;
+profesoresRoutes.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    profesoresControllers.getAll((err, profesores) => {
+        if (err) {
+            return res.status(500).json({ 'message': err.message });
+        }
+        res.status(200).json(profesores);
+    });
+}));
 profesoresRoutes.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const newProfesores = req.body;
     profesoresControllers.create(newProfesores, (err, id_p) => {

@@ -94,3 +94,21 @@ export const updateGrades = (inscribe: Inscribe, callback: Function) => {
         }
     );
 };
+
+// Controlador para el método DELETE
+export const deleteInscribe = (inscribe: Inscribe, callback: Function) => {
+    const queryString = 'DELETE FROM Inscribe WHERE cod_e = ? AND grupo = ? AND cod_a = ? AND id_p = ?';
+
+    db.query(
+        queryString,
+        [inscribe.cod_e, inscribe.grupo, inscribe.cod_a, inscribe.id_p],
+        (err, result) => {
+            if (err) {
+                callback(err);
+                return;
+            }
+
+            callback(null, result);
+        }
+    );
+};

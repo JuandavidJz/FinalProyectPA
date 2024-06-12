@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Formulario de Profesores</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        form {
+            width: 300px;
+            margin: 0 auto;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 20px;
+        }
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+        }
+        input[type="submit"] {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <form id="profesoresForm">
+        <label for="id_p">ID:</label><br>
+        <input type="number" id="id_p" name="id_p"><br>
+        <label for="nom_p">Nombre:</label><br>
+        <input type="text" id="nom_p" name="nom_p"><br>
+        <label for="dir_p">Dirección:</label><br>
+        <input type="text" id="dir_p" name="dir_p"><br>
+        <label for="tel_p">Teléfono:</label><br>
+        <input type="number" id="tel_p" name="tel_p"><br>
+        <label for="profesion">Profesión:</label><br>
+        <input type="text" id="profesion" name="profesion"><br>
+        <input type="submit" value="Enviar">
+    </form>
+
+    <script>
+        document.getElementById('profesoresForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const profesor = {
+                id_p: document.getElementById('id_p').value,
+                nom_p: document.getElementById('nom_p').value,
+                dir_p: document.getElementById('dir_p').value,
+                tel_p: document.getElementById('tel_p').value,
+                profesion: document.getElementById('profesion').value
+            };
+
+            fetch('http://localhost:3002/profesores', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(profesor),
+})
+.then(response => {
+    if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return response.json();
+})
+.then(data => console.log(data))
+.catch((error) => console.error('Error:', error));
+
+        });
+    </script>
+</body>
+</html>

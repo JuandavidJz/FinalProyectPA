@@ -20,8 +20,6 @@ export const create = (estudiante: Estudiantes, callback: Function) => {
     );
 };
 
-
-
 export const update = (cod_e: number, estudiante: Estudiantes, callback: Function) => {
 	const queryString = 'UPDATE estudiantes SET nom_e = ?, dir_e = ?, tel_e = ?, fech_nac = ? WHERE cod_e = ?';
 

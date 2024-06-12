@@ -49,3 +49,30 @@ asignaturasRoutes.post('/', (req, res) => __awaiter(void 0, void 0, void 0, func
         res.status(201).json({ 'Asignaturas: ': cod_a });
     });
 }));
+asignaturasRoutes.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    asignaturasControllers.getAll((err, asignaturas) => {
+        if (err) {
+            return res.status(500).json({ 'message': err.message });
+        }
+        res.status(200).json(asignaturas);
+    });
+}));
+asignaturasRoutes.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const newAsignaturas = req.body;
+    asignaturasControllers.create(newAsignaturas, (err, cod_a) => {
+        if (err) {
+            return res.status(500).json({ 'message': err.message });
+        }
+        res.status(201).json({ 'Asignaturas: ': cod_a });
+    });
+}));
+// Método DELETE para eliminar una asignatura por su código
+asignaturasRoutes.delete('/:cod_a', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const cod_a = req.params.cod_a;
+    asignaturasControllers.deleteAsig(cod_a, (err, result) => {
+        if (err) {
+            return res.status(500).json({ 'message': err.message });
+        }
+        res.status(200).json({ 'message': 'Asignatura eliminada exitosamente' });
+    });
+}));

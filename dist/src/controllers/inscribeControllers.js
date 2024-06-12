@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateGrades = exports.getByStudent = exports.getBySubjectAndGroup = exports.create = void 0;
+exports.deleteInscribe = exports.updateGrades = exports.getByStudent = exports.getBySubjectAndGroup = exports.create = void 0;
 const db_1 = require("../../db");
 const create = (inscribe, callback) => {
     const queryString = 'INSERT INTO Inscribe (cod_e, grupo, cod_a, id_p, n1, n2, n3) VALUES (?, ?, ?, ?, ?, ?, ?)';
@@ -75,3 +75,15 @@ const updateGrades = (inscribe, callback) => {
     });
 };
 exports.updateGrades = updateGrades;
+// Controlador para el método DELETE
+const deleteInscribe = (inscribe, callback) => {
+    const queryString = 'DELETE FROM Inscribe WHERE cod_e = ? AND grupo = ? AND cod_a = ? AND id_p = ?';
+    db_1.db.query(queryString, [inscribe.cod_e, inscribe.grupo, inscribe.cod_a, inscribe.id_p], (err, result) => {
+        if (err) {
+            callback(err);
+            return;
+        }
+        callback(null, result);
+    });
+};
+exports.deleteInscribe = deleteInscribe;
