@@ -57,16 +57,6 @@ asignaturasRoutes.get('/', (req, res) => __awaiter(void 0, void 0, void 0, funct
         res.status(200).json(asignaturas);
     });
 }));
-asignaturasRoutes.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const newAsignaturas = req.body;
-    asignaturasControllers.create(newAsignaturas, (err, cod_a) => {
-        if (err) {
-            return res.status(500).json({ 'message': err.message });
-        }
-        res.status(201).json({ 'Asignaturas: ': cod_a });
-    });
-}));
-// Método DELETE para eliminar una asignatura por su código
 asignaturasRoutes.delete('/:cod_a', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const cod_a = req.params.cod_a;
     asignaturasControllers.deleteAsig(cod_a, (err, result) => {
@@ -74,5 +64,18 @@ asignaturasRoutes.delete('/:cod_a', (req, res) => __awaiter(void 0, void 0, void
             return res.status(500).json({ 'message': err.message });
         }
         res.status(200).json({ 'message': 'Asignatura eliminada exitosamente' });
+    });
+}));
+asignaturasRoutes.put('/:cod_a', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const cod_a = parseInt(req.params.cod_a, 10);
+    const asignatura = req.body;
+    console.log(cod_a);
+    asignaturasControllers.update(cod_a, asignatura, (err, affectedRows) => {
+        if (err) {
+            console.error('Error al actualizar los datos:', err);
+            return res.status(500).json({ error: 'Error al actualizar los datos' });
+        }
+        console.log(affectedRows);
+        res.json({ message: 'Asignatura actualizada correctamente' });
     });
 }));

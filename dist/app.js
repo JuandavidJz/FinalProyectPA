@@ -34,8 +34,8 @@ const estudiantesRoutes_1 = require("./src/routes/estudiantesRoutes");
 const cors_1 = __importDefault(require("cors"));
 const asignaturasRoutes_1 = require("./src/routes/asignaturasRoutes");
 const profesoresRoutes_1 = require("./src/routes/profesoresRoutes");
-//import { imparteRoutes } from "./src/routes/imparteRoutes";
-//import { inscribeRoutes } from "./src/routes/inscribeRoutes";
+const imparteRoutes_1 = require("./src/routes/imparteRoutes");
+const inscribeRoutes_1 = require("./src/routes/inscribeRoutes");
 const app = (0, express_1.default)();
 dotenv.config();
 app.use((0, cors_1.default)());
@@ -44,8 +44,8 @@ app.use(bodyParser.json());
 app.use('/estudiantes', estudiantesRoutes_1.estudiantesRoutes);
 app.use('/profesores', profesoresRoutes_1.profesoresRoutes);
 app.use('/asignaturas', asignaturasRoutes_1.asignaturasRoutes);
-//app.use('/imparte', imparteRoutes)
-//app.use('/inscribe', inscribeRoutes)
+app.use('/imparte', imparteRoutes_1.imparteRoutes);
+app.use('/inscribe', inscribeRoutes_1.inscribeRoutes);
 app.get('/', (req, res) => {
     res.type('text/plain');
     res.status(200).send('Welcome!');

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteAsig = exports.getAll = exports.create = void 0;
+exports.update = exports.deleteAsig = exports.getAll = exports.create = void 0;
 const db_1 = require("../../db");
 const create = (asignaturas, callback) => {
     const queryString = 'INSERT INTO asignaturas (cod_a, nom_a, int_h, creditos_a) VALUES (?, ?, ?, ?)';
@@ -35,3 +35,14 @@ const deleteAsig = (cod_a, callback) => {
     });
 };
 exports.deleteAsig = deleteAsig;
+const update = (cod_a, asignatura, callback) => {
+    const queryString = 'UPDATE asignaturas SET nom_a = ?, int_h = ?, creditos_a = ? WHERE cod_a = ?';
+    db_1.db.query(queryString, [asignatura.nom_a, asignatura.int_h, asignatura.creditos_a, asignatura.cod_a], (err, result) => {
+        if (err) {
+            return callback(err);
+        }
+        const affectedRows = result.affectedRows;
+        callback(null, affectedRows);
+    });
+};
+exports.update = update;

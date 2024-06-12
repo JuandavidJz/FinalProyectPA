@@ -6,8 +6,8 @@ import {estudiantesRoutes} from './src/routes/estudiantesRoutes';
 import cors from 'cors';
 import { asignaturasRoutes } from "./src/routes/asignaturasRoutes";
 import { profesoresRoutes } from "./src/routes/profesoresRoutes";
-//import { imparteRoutes } from "./src/routes/imparteRoutes";
-//import { inscribeRoutes } from "./src/routes/inscribeRoutes";
+import { imparteRoutes } from "./src/routes/imparteRoutes";
+import { inscribeRoutes } from "./src/routes/inscribeRoutes";
 
 const app = express();
 dotenv.config();
@@ -18,10 +18,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.json());
 app.use('/estudiantes',estudiantesRoutes)
 app.use('/profesores',profesoresRoutes)
-app.use('/asignaturas',asignaturasRoutes)
-
-//app.use('/imparte', imparteRoutes)
-//app.use('/inscribe', inscribeRoutes)
+app.use('/asignatura',asignaturasRoutes)
+app.use('/imparte', imparteRoutes)
+app.use('/inscribe', inscribeRoutes)
 
 
 app.get('/', (req, res) => {

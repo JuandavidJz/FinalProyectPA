@@ -1,11 +1,7 @@
 import express, { Request, Response } from 'express';
 import * as estudiantesControllers from '../controllers/estudiantesControllers';
-import * as create from '../controllers/estudiantesControllers';
 import {Estudiantes } from '../models/estudiantesModels';
-//import * as inscribeControllers from '../controllers/inscribeControllers';
-//import {Inscribe } from '../models/inscribeModels';
 
-const app = express();
 const estudiantesRoutes = express.Router();
 
 estudiantesRoutes.post('/', async (req: Request, res: Response) => {
@@ -32,7 +28,9 @@ estudiantesRoutes.put('/:cod_e', async (req: Request, res: Response) => {
 
 		if (affectedRows === 0) {
 			return res.status(404).json({ 'message': 'Estudiante no encontrado' });
+            
 		}
+        console.log(affectedRows);
 
 		res.status(200).json({ 'message': 'Estudiante actualizado correctamente' });
 	});
@@ -43,7 +41,6 @@ estudiantesRoutes.get('/', async (req: Request, res: Response) => {
         if (err) {
             return res.status(500).json({ 'message': err.message });
         }
-
         res.status(200).json(results);
     });
 });

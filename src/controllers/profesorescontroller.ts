@@ -41,7 +41,6 @@ export const getAll = (callback: Function) => {
     });
 };
 
-// Controlador para el método UPDATE (PUT)
 export const update = (profesores: Profesores, callback: Function) => {
     const queryString = 'UPDATE profesores SET nom_p = ?, dir_p = ?, tel_p = ?, profesion = ? WHERE id_p = ?';
 

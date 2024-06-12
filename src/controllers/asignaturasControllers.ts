@@ -38,3 +38,23 @@ export const deleteAsig = (cod_a: string, callback: Function) => {
         callback(null, result);
     });
 };
+
+export const update = (cod_a: number, asignatura: Asignaturas, callback: Function) => {
+    const queryString = 'UPDATE asignaturas SET nom_a = ?, int_h = ?, creditos_a = ? WHERE cod_a = ?';
+
+    db.query(
+        queryString,
+        [asignatura.nom_a, asignatura.int_h, asignatura.creditos_a, cod_a],
+        (err, result) => {
+            if (err) { 
+                callback(err);
+                return;
+            }
+
+            const affectedRows = (<OkPacket>result).affectedRows;
+            callback(null, affectedRows);
+        }
+    );
+};
+
+

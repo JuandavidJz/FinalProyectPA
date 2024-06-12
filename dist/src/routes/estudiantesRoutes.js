@@ -38,9 +38,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.estudiantesRoutes = void 0;
 const express_1 = __importDefault(require("express"));
 const estudiantesControllers = __importStar(require("../controllers/estudiantesControllers"));
-//import * as inscribeControllers from '../controllers/inscribeControllers';
-//import {Inscribe } from '../models/inscribeModels';
-const app = (0, express_1.default)();
 const estudiantesRoutes = express_1.default.Router();
 exports.estudiantesRoutes = estudiantesRoutes;
 estudiantesRoutes.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -64,6 +61,7 @@ estudiantesRoutes.put('/:cod_e', (req, res) => __awaiter(void 0, void 0, void 0,
         if (affectedRows === 0) {
             return res.status(404).json({ 'message': 'Estudiante no encontrado' });
         }
+        console.log(affectedRows);
         res.status(200).json({ 'message': 'Estudiante actualizado correctamente' });
     });
 }));

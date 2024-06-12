@@ -38,13 +38,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.imparteRoutes = void 0;
 const express_1 = __importDefault(require("express"));
 const imparteControllers = __importStar(require("../controllers/imparteControllers"));
+const app = (0, express_1.default)();
 const imparteRoutes = express_1.default.Router();
 exports.imparteRoutes = imparteRoutes;
 imparteRoutes.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const newImparte = req.body;
     imparteControllers.create(newImparte, (err, result) => {
         if (err) {
-            return res.status(500).json({ 'message': err.message });
+            return res.status(404).json({ 'message': err.message });
         }
         res.status(201).json({ 'Imparte': result });
     });
@@ -61,7 +62,7 @@ imparteRoutes.delete('/:id_p', (req, res) => __awaiter(void 0, void 0, void 0, f
     const id_p = Number(req.params.id_p);
     imparteControllers.deleteImparte(id_p, (err, result) => {
         if (err) {
-            return res.status(500).json({ 'message': err.message });
+            return res.status(404).json({ 'message': err.message });
         }
         res.status(200).json({ 'message': 'Registro eliminado exitosamente' });
     });

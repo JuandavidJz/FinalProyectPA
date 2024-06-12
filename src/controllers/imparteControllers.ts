@@ -21,6 +21,15 @@ export const create = (imparte: Imparte, callback: Function) => {
     );
 };
 
+export const deleteImparte = (id_p: number, callback: Function) => {
+    const queryString = 'DELETE FROM Imparte WHERE id_p = ?';
+
+    db.query(queryString, id_p, (err, result) => {
+        if (err) { callback(err); }
+
+        callback(null, result);
+    });
+};
 export const getAll = (callback: Function) => {
     const queryString = 'SELECT * FROM Imparte';
 
@@ -40,16 +49,5 @@ export const getAll = (callback: Function) => {
             imparte.push(imp);
         });
         callback(null, imparte);
-    });
-};
-
-// Controlador para el método DELETE
-export const deleteImparte = (id_p: number, callback: Function) => {
-    const queryString = 'DELETE FROM Imparte WHERE id_p = ?';
-
-    db.query(queryString, id_p, (err, result) => {
-        if (err) { callback(err); }
-
-        callback(null, result);
     });
 };

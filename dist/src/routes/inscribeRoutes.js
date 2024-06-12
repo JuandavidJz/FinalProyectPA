@@ -38,6 +38,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.inscribeRoutes = void 0;
 const express_1 = __importDefault(require("express"));
 const inscribeControllers = __importStar(require("../controllers/inscribeControllers"));
+const inscribeControllers_1 = require("../controllers/inscribeControllers"); // Ajusta la ruta de importación según sea necesario
 const inscribeRoutes = express_1.default.Router();
 exports.inscribeRoutes = inscribeRoutes;
 inscribeRoutes.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -49,25 +50,16 @@ inscribeRoutes.post('/', (req, res) => __awaiter(void 0, void 0, void 0, functio
         res.status(201).json({ 'insertId': insertId });
     });
 }));
-inscribeRoutes.get('/asignatura/:cod_a/grupo/:grupo', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const cod_a = parseInt(req.params.cod_a);
-    const grupo = parseInt(req.params.grupo);
-    inscribeControllers.getBySubjectAndGroup(cod_a, grupo, (err, results) => {
-        if (err) {
-            return res.status(500).json({ 'message': err.message });
-        }
-        res.status(200).json(results);
-    });
-}));
-inscribeRoutes.get('/estudiante/:cod_e', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+inscribeRoutes.get('/:cod_e', (req, res) => {
     const cod_e = parseInt(req.params.cod_e);
-    inscribeControllers.getByStudent(cod_e, (err, results) => {
+    (0, inscribeControllers_1.getByStudent)(cod_e, (err, inscribe) => {
         if (err) {
-            return res.status(500).json({ 'message': err.message });
+            console.error('Error al obtener los datos:', err);
+            return res.status(500).json({ error: 'Error al obtener los datos' });
         }
-        res.status(200).json(results);
+        res.json(inscribe);
     });
-}));
+});
 inscribeRoutes.put('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const updateInscribe = req.body;
     inscribeControllers.updateGrades(updateInscribe, (err, result) => {

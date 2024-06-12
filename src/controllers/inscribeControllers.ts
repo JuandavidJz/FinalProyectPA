@@ -22,15 +22,14 @@ export const create = (inscribe: Inscribe, callback: Function) => {
     );
 };
 
-export const getBySubjectAndGroup = (cod_a: number, grupo: number, callback: Function) => {
-    const queryString = 'SELECT * FROM Inscribe WHERE cod_a = ? AND grupo = ?';
+export const getBySubjectAndGroup = (cod_a: number, callback: Function) => {
+    const queryString = 'SELECT * FROM Inscribe WHERE cod_a = ? ';
 
-    db.query(queryString, [cod_a, grupo], (err, result) => {
+    db.query(queryString, [cod_a], (err, result) => {
         if (err) {
             callback(err);
             return;
         }
-
         const rows = <RowDataPacket[]>result;
         const inscribe: Inscribe[] = [];
 

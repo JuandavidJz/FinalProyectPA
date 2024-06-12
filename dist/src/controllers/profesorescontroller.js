@@ -35,7 +35,6 @@ const getAll = (callback) => {
     });
 };
 exports.getAll = getAll;
-// Controlador para el método UPDATE (PUT)
 const update = (profesores, callback) => {
     const queryString = 'UPDATE profesores SET nom_p = ?, dir_p = ?, tel_p = ?, profesion = ? WHERE id_p = ?';
     db_1.db.query(queryString, [profesores.nom_p, profesores.dir_p, profesores.tel_p, profesores.profesion, profesores.id_p], (err, result) => {

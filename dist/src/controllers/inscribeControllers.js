@@ -14,9 +14,9 @@ const create = (inscribe, callback) => {
     });
 };
 exports.create = create;
-const getBySubjectAndGroup = (cod_a, grupo, callback) => {
-    const queryString = 'SELECT * FROM Inscribe WHERE cod_a = ? AND grupo = ?';
-    db_1.db.query(queryString, [cod_a, grupo], (err, result) => {
+const getBySubjectAndGroup = (cod_a, callback) => {
+    const queryString = 'SELECT * FROM Inscribe WHERE cod_a = ? ';
+    db_1.db.query(queryString, [cod_a], (err, result) => {
         if (err) {
             callback(err);
             return;
