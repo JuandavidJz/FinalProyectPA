@@ -10,15 +10,11 @@ import { profesoresRoutes } from "./src/routes/profesoresRoutes";
 //import { inscribeRoutes } from "./src/routes/inscribeRoutes";
 
 const app = express();
-dotenv.config()
-const allowedOrigins = ["*"]
-const options: cors.CorsOptions = {
-	origin: allowedOrigins,
-	allowedHeaders: [    'Origin',    'X-Requested-With',    'Content-Type',    'Accept',    'X-Access-Token',  ],
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE"
-}
+dotenv.config();
 
-app.use(cors<Request>(options));
+app.use(cors());
+app.use(bodyParser.json());
+
 app.use(bodyParser.json());
 app.use('/estudiantes',estudiantesRoutes)
 app.use('/profesores',profesoresRoutes)
