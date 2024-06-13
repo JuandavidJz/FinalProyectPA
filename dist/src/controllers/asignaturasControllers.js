@@ -37,9 +37,10 @@ const deleteAsig = (cod_a, callback) => {
 exports.deleteAsig = deleteAsig;
 const update = (cod_a, asignatura, callback) => {
     const queryString = 'UPDATE asignaturas SET nom_a = ?, int_h = ?, creditos_a = ? WHERE cod_a = ?';
-    db_1.db.query(queryString, [asignatura.nom_a, asignatura.int_h, asignatura.creditos_a, asignatura.cod_a], (err, result) => {
+    db_1.db.query(queryString, [asignatura.nom_a, asignatura.int_h, asignatura.creditos_a, cod_a], (err, result) => {
         if (err) {
-            return callback(err);
+            callback(err);
+            return;
         }
         const affectedRows = result.affectedRows;
         callback(null, affectedRows);

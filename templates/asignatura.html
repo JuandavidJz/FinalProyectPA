@@ -1,82 +1,104 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Formulario de Profesores</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-        form {
-            width: 300px;
-            margin: 0 auto;
-        }
-        label {
-            font-weight: bold;
-            display: block;
-            margin-top: 20px;
-        }
-        input[type="text"], input[type="number"] {
-            width: 100%;
-            padding: 10px;
-            margin-top: 5px;
-        }
-        input[type="submit"] {
-            margin-top: 20px;
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        input[type="submit"]:hover {
-            background-color: #45a049;
-        }
-    </style>
+    <title>Formulario de Asignaturas</title>
 </head>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+    form {
+        width: 300px;
+        margin: 0 auto;
+    }
+    label {
+        font-weight: bold;
+        display: block;
+        margin-top: 20px;
+    }
+    input[type="text"], input[type="number"] {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+    }
+    input[type="submit"] {
+        margin-top: 20px;
+        padding: 10px 20px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+    input[type="submit"]:hover {
+        background-color: #45a049;
+    }
+</style>
 <body>
-    <form id="profesoresForm">
-        <label for="id_p">ID:</label><br>
-        <input type="number" id="id_p" name="id_p"><br>
-        <label for="nom_p">Nombre:</label><br>
-        <input type="text" id="nom_p" name="nom_p"><br>
-        <label for="dir_p">Dirección:</label><br>
-        <input type="text" id="dir_p" name="dir_p"><br>
-        <label for="tel_p">Teléfono:</label><br>
-        <input type="number" id="tel_p" name="tel_p"><br>
-        <label for="profesion">Profesión:</label><br>
-        <input type="text" id="profesion" name="profesion"><br>
+    <form id="asignaturaForm">
+        <label for="cod_a">Código:</label><br>
+        <input type="text" id="cod_a" name="cod_a"><br>
+        <label for="nom_a">Nombre:</label><br>
+        <input type="text" id="nom_a" name="nom_a"><br>
+        <label for="int_h">Intensidad Horaria:</label><br>
+        <input type="number" id="int_h" name="int_h"><br>
+        <label for="creditos_a">Créditos:</label><br>
+        <input type="number" id="creditos_a" name="creditos_a"><br>
         <input type="submit" value="Enviar">
     </form>
 
     <script>
-        document.getElementById('profesoresForm').addEventListener('submit', function(event) {
+        // Función para cargar los datos de una asignatura existente por su código
+        function cargarDatosAsignatura(codigo) {
+            fetch(`http://localhost:3002/asignatura/${codigo}`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('cod_a').value = data.cod_a;
+                    document.getElementById('nom_a').value = data.nom_a;
+                    document.getElementById('int_h').value = data.int_h;
+                    document.getElementById('creditos_a').value = data.creditos_a;
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        // Función para enviar los datos del formulario
+        document.getElementById('asignaturaForm').addEventListener('submit', function(event) {
             event.preventDefault();
 
-            const profesor = {
-                id_p: document.getElementById('id_p').value,
-                nom_p: document.getElementById('nom_p').value,
-                dir_p: document.getElementById('dir_p').value,
-                tel_p: document.getElementById('tel_p').value,
-                profesion: document.getElementById('profesion').value
+            const asignatura = {
+                cod_a: document.getElementById('cod_a').value,
+                nom_a: document.getElementById('nom_a').value,
+                int_h: document.getElementById('int_h').value,
+                creditos_a: document.getElementById('creditos_a').value
             };
 
-            fetch('http://localhost:3002/profesores', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(profesor),
-})
-.then(response => {
-    if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    return response.json();
-})
-.then(data => console.log(data))
-.catch((error) => console.error('Error:', error));
-
+            fetch(`http://localhost:3002/asignatura/${asignatura.cod_a}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(asignatura),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data); // Puedes mostrar la respuesta en la consola para verificar
+                alert('¡Los datos se han actualizado correctamente!');
+                document.getElementById('asignaturaForm').reset(); // Limpia el formulario
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                alert('Hubo un error al intentar actualizar los datos.');
+            });
         });
+
+        // Cuando se carga la página, verificar si hay datos para cargar
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const codigoAsignatura = urlParams.get('cod_a'); // Obtener el código de la asignatura de la URL si se pasa como parámetro
+
+            if (codigoAsignatura) {
+                cargarDatosAsignatura(codigoAsignatura);
+            }
+        };
     </script>
 </body>
 </html>

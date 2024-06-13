@@ -1,9 +1,10 @@
 import express, { Request, Response } from 'express';
 import * as profesoresControllers from '../controllers/profesorescontroller';
 import {Profesores } from '../models/profesoresModels';
+import { getByteacher } from '../controllers/profesorescontroller'; // Ajusta la ruta de importación aquí sea necesario
 
 const profesoresRoutes = express.Router();
-
+//total
 profesoresRoutes.get('/', async (req: Request, res: Response) => {
     profesoresControllers.getAll((err: Error, profesores: Profesores[]) => {
         if (err) {
@@ -13,6 +14,22 @@ profesoresRoutes.get('/', async (req: Request, res: Response) => {
         res.status(200).json(profesores);
     });
 });
+
+//por id
+profesoresRoutes.get('/:id_p', (req, res) => {
+    const id_p = parseInt(req.params.id_p, 10);
+
+    getByteacher(id_p, (err: any, profesores: Profesores) => {
+        if (err) {
+            console.error('Error al obtener los profesores:', err);
+            res.status(500).json({ error: 'Error interno del servidor' });
+            return;
+        }
+
+        res.json(profesores);
+    });
+});
+
 
 
 

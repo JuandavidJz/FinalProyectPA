@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Formulario de Profesores</title>
+    <title>Formulario de Profesor</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -31,10 +31,43 @@
         input[type="submit"]:hover {
             background-color: #45a049;
         }
+        .popup {
+            display: none;
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            border: 1px solid #888;
+            box-shadow: 0px 0px 10px 0px #000;
+            padding: 20px;
+            background-color: white;
+            z-index: 1000;
+        }
+        .popup button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .popup button:hover {
+            background-color: #45a049;
+        }
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+        }
     </style>
 </head>
 <body>
-    <form id="profesoresForm">
+    <form id="profesorForm">
         <label for="id_p">ID:</label><br>
         <input type="number" id="id_p" name="id_p"><br>
         <label for="nom_p">Nombre:</label><br>
@@ -48,39 +81,50 @@
         <input type="submit" value="Enviar">
     </form>
 
+    <div class="overlay" id="overlay"></div>
+
+    <div class="popup" id="popup">
+        <p>Datos enviados correctamente.</p>
+        <button onclick="closePopup()">Cerrar</button>
+    </div>
+
     <script>
-        document.getElementById('profesoresForm').addEventListener('submit', function(event) {
-    event.preventDefault();
+        document.getElementById('profesorForm').addEventListener('submit', function(event) {
+            event.preventDefault();
 
-    const profesor = {
-        id_p: document.getElementById('id_p').value,
-        nom_p: document.getElementById('nom_p').value,
-        dir_p: document.getElementById('dir_p').value,
-        tel_p: document.getElementById('tel_p').value,
-        profesion: document.getElementById('profesion').value
-    };
+            const profesor = {
+                id_p: document.getElementById('id_p').value,
+                nom_p: document.getElementById('nom_p').value,
+                dir_p: document.getElementById('dir_p').value,
+                tel_p: document.getElementById('tel_p').value,
+                profesion: document.getElementById('profesion').value
+            };
 
-    fetch('http://localhost:3002/profesores', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(profesor),
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+            fetch('http://localhost:3002/profesores', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(profesor),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                showPopup();
+                document.getElementById('profesorForm').reset();
+            })
+            .catch((error) => console.error('Error:', error));
+        });
+
+        function showPopup() {
+            document.getElementById('popup').style.display = 'block';
+            document.getElementById('overlay').style.display = 'block';
         }
-        return response.json();
-    })
-    .then(data => console.log(data))
-    .catch((error) => {2
-        console.error('Error:', error);
-        alert('Hubo un error al agregar el profesor.');
-        window.open('http://localhost:3002/profesores', '_blank');
-    });
-});
 
+        function closePopup() {
+            document.getElementById('popup').style.display = 'none';
+            document.getElementById('overlay').style.display = 'none';
+        }
     </script>
 </body>
 </html>

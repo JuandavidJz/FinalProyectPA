@@ -43,7 +43,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.json());
 app.use('/estudiantes', estudiantesRoutes_1.estudiantesRoutes);
 app.use('/profesores', profesoresRoutes_1.profesoresRoutes);
-app.use('/asignaturas', asignaturasRoutes_1.asignaturasRoutes);
+app.use('/asignatura', asignaturasRoutes_1.asignaturasRoutes);
 app.use('/imparte', imparteRoutes_1.imparteRoutes);
 app.use('/inscribe', inscribeRoutes_1.inscribeRoutes);
 app.get('/', (req, res) => {

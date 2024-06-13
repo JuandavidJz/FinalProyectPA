@@ -73,9 +73,12 @@ asignaturasRoutes.put('/:cod_a', (req, res) => __awaiter(void 0, void 0, void 0,
     asignaturasControllers.update(cod_a, asignatura, (err, affectedRows) => {
         if (err) {
             console.error('Error al actualizar los datos:', err);
-            return res.status(500).json({ error: 'Error al actualizar los datos' });
+            return res.status(500).json({ 'message': err.message });
+        }
+        if (affectedRows === 0) {
+            return res.status(404).json({ 'message': 'Asignatura no encontrada' });
         }
         console.log(affectedRows);
-        res.json({ message: 'Asignatura actualizada correctamente' });
+        res.status(200).json({ 'message': 'Asignatura actualizada correctamente' });
     });
 }));

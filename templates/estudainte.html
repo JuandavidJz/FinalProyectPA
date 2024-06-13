@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Formulario de Estudiante</title>
+</head>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+    form {
+        width: 300px;
+        margin: 0 auto;
+    }
+    label {
+        font-weight: bold;
+        display: block;
+        margin-top: 20px;
+    }
+    input[type="text"], input[type="number"] {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+    }
+    input[type="submit"] {
+        margin-top: 20px;
+        padding: 10px 20px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+    input[type="submit"]:hover {
+        background-color: #45a049;
+    }
+</style>
+<body>
+    <form id="estudianteForm">
+        <label for="cod_e">Código:</label><br>
+        <input type="text" id="cod_e" name="cod_e"><br>
+        <label for="nom_e">Nombre:</label><br>
+        <input type="text" id="nom_e" name="nom_e"><br>
+        <label for="dir_e">Dirección:</label><br>
+        <input type="text" id="dir_e" name="dir_e"><br>
+        <label for="tel_e">Teléfono:</label><br>
+        <input type="text" id="tel_e" name="tel_e"><br>
+        <label for="fech_nac">Fecha de Nacimiento:</label><br>
+        <input type="date" id="fech_nac" name="fech_nac"><br>
+        <input type="submit" value="Enviar">
+    </form>
+
+    <script>
+        document.getElementById('estudianteForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const estudiante = {
+                cod_e: document.getElementById('cod_e').value,
+                nom_e: document.getElementById('nom_e').value,
+                dir_e: document.getElementById('dir_e').value,
+                tel_e: document.getElementById('tel_e').value,
+                fech_nac: document.getElementById('fech_nac').value
+            };
+
+            fetch('http://localhost:3002/estudiantes', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(estudiante),
+            })
+            .then(response => response.json())
+            .then(data => console.log(data))
+            .catch((error) => console.error('Error:', error));
+        });
+    </script>
+</body>
+</html>

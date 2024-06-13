@@ -3,6 +3,58 @@ import { db } from '../../db';
 import { OkPacket, RowDataPacket } from 'mysql2';
 
 
+//CONSULTA TOTAL
+
+export const getAll = (callback: Function) => {
+    const queryString = 'SELECT * FROM estudiantes';
+
+    db.query(queryString, (err, result) => {
+        if (err) { callback(err); }
+
+        const rows = <RowDataPacket[]>result;
+        const imparte: Estudiantes[] = [];
+
+        rows.forEach(row => {
+            const imp: Estudiantes = {
+                cod_e: row.cod_e,
+                nom_e: row.nom_e,
+                dir_e: row.dir_e,
+                tel_e: row.tel_e,
+                fech_nac: row.fech_nac
+            };
+            imparte.push(imp);
+        });
+        callback(null, imparte);
+    });
+};
+
+//DE MANERA INDIVIDUAL
+export const getBySubjectAndGroup = (cod_e: number, callback: Function) => {
+    const queryString = 'SELECT * FROM estudiantes WHERE cod_e = ? ';
+
+    db.query(queryString, [cod_e], (err, result) => {
+        if (err) {
+            callback(err);
+            return;
+        }
+        const rows = <RowDataPacket[]>result;
+        const estudiantes: Estudiantes[] = [];
+
+        rows.forEach(row => {
+            const estudiante: Estudiantes = {
+                cod_e: row.cod_e,
+                nom_e: row.nom_e,
+                dir_e: row.dir_e,
+                tel_e: row.tel_e,
+                fech_nac: row.fech_nac
+            };
+            estudiantes.push(estudiante);
+        });
+        callback(null, estudiantes);
+    });
+};
+
+
 export const create = (estudiante: Estudiantes, callback: Function) => {
     const queryString = 'INSERT INTO estudiantes (cod_e, nom_e, dir_e, tel_e, fech_nac) VALUES (?, ?, ?, ?, ?)';
 
@@ -38,25 +90,3 @@ export const update = (cod_e: number, estudiante: Estudiantes, callback: Functio
 	);
 };
 
-export const getAll = (callback: Function) => {
-    const queryString = 'SELECT * FROM estudiantes';
-
-    db.query(queryString, (err, result) => {
-        if (err) { callback(err); }
-
-        const rows = <RowDataPacket[]>result;
-        const imparte: Estudiantes[] = [];
-
-        rows.forEach(row => {
-            const imp: Estudiantes = {
-                cod_e: row.cod_e,
-                nom_e: row.nom_e,
-                dir_e: row.dir_e,
-                tel_e: row.tel_e,
-                fech_nac: row.fech_nac
-            };
-            imparte.push(imp);
-        });
-        callback(null, imparte);
-    });
-};

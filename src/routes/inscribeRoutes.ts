@@ -1,9 +1,44 @@
 import express, { Request, Response } from 'express';
 import * as inscribeControllers from '../controllers/inscribeControllers';
 import { Inscribe } from '../models/inscribeModels';
-import { getByStudent } from '../controllers/inscribeControllers'; // Ajusta la ruta de importación según sea necesario
+import { getByStudent } from '../controllers/inscribeControllers';
+import { getAllInscribe } from '../controllers/inscribeControllers'; // Ajusta la ruta de importación según sea necesario
+import { getStudentAndNotesByAsignaturaAndGrupo } from '../controllers/inscribeControllers';
 
 const inscribeRoutes = express.Router();
+
+//total
+inscribeRoutes.get('/', (req, res) => {
+    getAllInscribe((err: Error, inscribes: Inscribe[]) => {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+        res.status(200).json(inscribes);
+    });
+});
+
+
+//estudiante nota
+
+
+
+inscribeRoutes.get('/', (req, res) => {
+    const cod_a = parseInt(req.query.cod_a as string);
+    const grupo = parseInt(req.query.grupo as string);
+
+    if (isNaN(cod_a) || isNaN(grupo)) {
+        return res.status(400).json({ error: 'Invalid cod_a or grupo parameter' });
+    }
+
+    getStudentAndNotesByAsignaturaAndGrupo(cod_a, grupo, (err: Error, studentsAndNotes: { cod_e: number, n1?: number, n2?: number, n3?: number }[]) => {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+        res.status(200).json(studentsAndNotes);
+    });
+});
+
+
 inscribeRoutes.post('/', async (req: Request, res: Response) => {
     const newInscribe: Inscribe = req.body;
     inscribeControllers.create(newInscribe, (err: Error, insertId: number) => {
@@ -38,19 +73,5 @@ inscribeRoutes.put('/', async (req: Request, res: Response) => {
     });
 });
 
-inscribeRoutes.delete('/:cod_e/:grupo/:cod_a/:id_p', async (req: Request, res: Response) => {
-    const cod_e = parseInt(req.params.cod_e);
-    const grupo = parseInt(req.params.grupo);
-    const cod_a = parseInt(req.params.cod_a);
-    const id_p = parseInt(req.params.id_p);
-    const deleteInscribe: Inscribe = { cod_e, grupo, cod_a, id_p, n1: 0, n2: 0, n3: 0 };
-    inscribeControllers.deleteInscribe(deleteInscribe, (err: Error, result: any) => {
-        if (err) {
-            return res.status(500).json({ 'message': err.message });
-        }
-
-        res.status(200).json({ 'message': 'Registro eliminado exitosamente' });
-    });
-});
 
 export { inscribeRoutes };

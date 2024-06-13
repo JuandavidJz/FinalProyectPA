@@ -2,6 +2,51 @@ import { Asignaturas} from '../models/asignaturasModels';
 import { db } from '../../db';
 import { OkPacket, RowDataPacket } from 'mysql2';
 
+
+
+// Controlador para el método GET
+export const getAll = (callback: Function) => {
+    const queryString = 'SELECT * FROM asignaturas';
+
+    db.query(queryString, (err, result) => {
+        if (err) { callback(err); }
+
+        callback(null, result);
+    });
+};
+
+
+//por ide
+export const getBySignature = (cod_a: number, callback: Function) => {
+    const queryString = 'SELECT * FROM asignaturas WHERE cod_a = ?';
+
+    db.query(queryString, [cod_a], (err, result) => {
+        if (err) {
+            callback(err);
+            return;
+        }
+
+        const rows = <RowDataPacket[]>result;
+        const asignaturas: Asignaturas[] = [];
+
+        rows.forEach(row => {
+            const asignatura: Asignaturas = {
+                cod_a: row.cod_a,
+                nom_a: row.nom_a,
+                int_h: row.int_h,
+                creditos_a: row.creditos_a
+            };
+            asignaturas.push(asignatura);
+        });
+
+        callback(null, asignaturas);
+    });
+};
+
+
+
+
+
 export const create = (asignaturas: Asignaturas, callback: Function) => {
 	const queryString = 'INSERT INTO asignaturas (cod_a, nom_a, int_h, creditos_a) VALUES (?, ?, ?, ?)';
 
@@ -17,16 +62,6 @@ export const create = (asignaturas: Asignaturas, callback: Function) => {
 	);
 }; 
 
-// Controlador para el método GET
-export const getAll = (callback: Function) => {
-    const queryString = 'SELECT * FROM asignaturas';
-
-    db.query(queryString, (err, result) => {
-        if (err) { callback(err); }
-
-        callback(null, result);
-    });
-};
 
 // Controlador para el método DELETE
 export const deleteAsig = (cod_a: string, callback: Function) => {

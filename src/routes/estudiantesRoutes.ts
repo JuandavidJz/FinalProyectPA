@@ -1,8 +1,33 @@
 import express, { Request, Response } from 'express';
 import * as estudiantesControllers from '../controllers/estudiantesControllers';
 import {Estudiantes } from '../models/estudiantesModels';
+import { getBySubjectAndGroup } from '../controllers/estudiantesControllers'; // Ajusta la ruta de importación según sea necesario
+
 
 const estudiantesRoutes = express.Router();
+
+//CONSULTA TOTAL
+estudiantesRoutes.get('/', async (req: Request, res: Response) => {
+    estudiantesControllers.getAll((err: Error, results: Estudiantes[]) => {
+        if (err) {
+            return res.status(500).json({ 'message': err.message });
+        }
+        res.status(200).json(results);
+    });
+});
+
+//DE MANERA INDIVIDUAL
+estudiantesRoutes.get('/:cod_e', (req, res) => {
+    const cod_a = parseInt(req.params.cod_e);
+
+        getBySubjectAndGroup(cod_a, (err: any, estudiantes: Estudiantes[]) => {
+        if (err) {
+            return res.status(500).json({ error: 'Error al obtener estudiantes' });
+        }
+        res.json(estudiantes);
+    });
+});
+
 
 estudiantesRoutes.post('/', async (req: Request, res: Response) => {
     const newEstudiantes: Estudiantes = req.body;
@@ -36,14 +61,7 @@ estudiantesRoutes.put('/:cod_e', async (req: Request, res: Response) => {
 	});
 });
 
-estudiantesRoutes.get('/', async (req: Request, res: Response) => {
-    estudiantesControllers.getAll((err: Error, results: Estudiantes[]) => {
-        if (err) {
-            return res.status(500).json({ 'message': err.message });
-        }
-        res.status(200).json(results);
-    });
-});
+
 
 
 export {estudiantesRoutes};

@@ -1,8 +1,37 @@
 import express, { Request, Response } from 'express';
 import * as asignaturasControllers from '../controllers/asignaturasControllers';
 import {Asignaturas } from '../models/asignaturasModels';
+import { getBySignature } from '../controllers/asignaturasControllers'; // Ajusta la ruta de importación según sea necesario
+
 
 const asignaturasRoutes = express.Router();
+
+//total
+asignaturasRoutes.get('/', async (req: Request, res: Response) => {
+    asignaturasControllers.getAll((err: Error, asignaturas: Asignaturas[]) => {
+        if (err) {
+            return res.status(500).json({ 'message': err.message });
+        }
+
+        res.status(200).json(asignaturas);
+    });
+});
+
+
+//por id
+
+asignaturasRoutes.get('/:cod_a', (req, res) => {
+    const cod_a = parseInt(req.params.cod_a);
+
+         getBySignature(cod_a, (err: any, asignaturas: Asignaturas) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).json({ error: 'Error al obtener las asignaturas' });
+        }
+
+        res.json(asignaturas);
+    });
+});
 
 asignaturasRoutes.post('/', async (req: Request, res: Response) => {
 	const newAsignaturas: Asignaturas = req.body;
@@ -15,15 +44,7 @@ asignaturasRoutes.post('/', async (req: Request, res: Response) => {
 	});
 });
 
-asignaturasRoutes.get('/', async (req: Request, res: Response) => {
-    asignaturasControllers.getAll((err: Error, asignaturas: Asignaturas[]) => {
-        if (err) {
-            return res.status(500).json({ 'message': err.message });
-        }
 
-        res.status(200).json(asignaturas);
-    });
-});
 
 asignaturasRoutes.delete('/:cod_a', async (req: Request, res: Response) => {
     const cod_a: string = req.params.cod_a;

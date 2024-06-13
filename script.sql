@@ -1,4 +1,4 @@
--- Active: 1717959940251@@127.0.0.1@3306@universidad
+-- Active: 1718047552957@@127.0.0.1@3306@universidad
 CREATE TABLE Estudiantes (
     cod_e BIGINT CHECK(cod_e > 0),
     nom_e VARCHAR(100) NOT NULL,
@@ -84,7 +84,7 @@ INSERT INTO Asignaturas (cod_a, nom_a, int_h, creditos_a) VALUES
 
 -- Inserciones para la tabla Imparte
 INSERT INTO Imparte (grupo, cod_a, id_p, horario) VALUES 
-(1, 201, 1, 'Lunes y Miércoles de 8:00 a 10:00'),
+(10, 204, 1, 'Lunes y Miércoles de 8:00 a 10:00'),
 (2, 202, 2, 'Martes y Jueves de 10:00 a 12:00'),
 (3, 203, 3, 'Viernes de 14:00 a 16:00'),
 (4, 204, 4, 'Lunes de 14:00 a 16:00'),
@@ -95,7 +95,7 @@ INSERT INTO Imparte (grupo, cod_a, id_p, horario) VALUES
 
 -- Inserciones para la tabla Inscribe con códigos de materias de Ingeniería de Sistemas
 INSERT INTO Inscribe (cod_e, grupo, cod_a, id_p, n1, n2, n3) VALUES 
-(1, 1, 201, 1, 4, 3, 5),
+(2, 1, 201, 1, 4, 3, 5),
 (2, 2, 202, 2, 5, 4, 4),
 (3, 3, 203, 3, 3, 3, 4),
 (4, 4, 204, 4, 4, 4, 3),
