@@ -8,7 +8,7 @@ import { getStudentAndNotesByAsignaturaAndGrupo } from '../controllers/inscribeC
 const inscribeRoutes = express.Router();
 
 //total
-inscribeRoutes.get('/', (req, res) => {
+inscribeRoutes.get('/all', (req, res) => {
     getAllInscribe((err: Error, inscribes: Inscribe[]) => {
         if (err) {
             return res.status(500).json({ error: err.message });
@@ -30,7 +30,7 @@ inscribeRoutes.get('/', (req, res) => {
         return res.status(400).json({ error: 'Invalid cod_a or grupo parameter' });
     }
 
-    getStudentAndNotesByAsignaturaAndGrupo(cod_a, grupo, (err: Error, studentsAndNotes: { cod_e: number, n1?: number, n2?: number, n3?: number }[]) => {
+    getStudentAndNotesByAsignaturaAndGrupo(cod_a, grupo, (err: Error, studentsAndNotes: { cod_e: number, nom_e: string, n1?: number, n2?: number, n3?: number }[]) => {
         if (err) {
             return res.status(500).json({ error: err.message });
         }
